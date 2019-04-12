@@ -75,9 +75,11 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      // {test:/\.css$/,use:['style-loader','css-loader']},//用来处理css的第三代模块,处理顺序，从后向前
-      {test:/\.less$/,use:['style-loader','css-loader','less-loader']},//用来处理less文件的第三方模块
-      {test:/\.scss$/,use:['style-loader','css-loader','sass-loader']},
+      // {test: /\.css$/, use: ['style-loader', 'css-loader']},//用来处理css的第三代模块,处理顺序，从后向前
+      // // {test: /\.css$/, use: ['css-loader', 'style-loader']},//用来处理css的第三代模块,处理顺序，从后向前
+      // {test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader']},//用来处理less文件的第三方模块
+      // {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},//配置babel来转化高级的ES语法
     ]
   },
   node: {
