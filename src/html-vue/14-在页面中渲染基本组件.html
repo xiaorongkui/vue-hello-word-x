@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>kajndfiaefmnosea</p>
+  <login></login>
+</div>
+<template id="templ">
+  <h3>你好这是登录组件</h3>
+</template>
+<script>
+  let login = {
+    template: '#templ'
+  }
+  let vm = new Vue({
+    el: '#app',
+    components: {
+      login: login
+    },
+    render: c => c(login)
+  })
+</script>
+</body>
+</html>

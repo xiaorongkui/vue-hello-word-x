@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>父组件向子组件传值</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <com1 v-bind:parentmsg="msg"></com1>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      msg: '父组件中的数据'
+    },
+    methods: {},
+    components: {
+      com1: {
+        template: '<h1>这是子组件 ====父组件值 {{parentmsg}}</h1>',
+        props: ['parentmsg'],
+      }
+    }
+  })
+</script>
+</body>
+</html>

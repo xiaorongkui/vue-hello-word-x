@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>通过方法调用</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <com1 @func="show"></com1>
+</div>
+
+<template id="templ">
+  <div>
+    <h1>这是子组件</h1>
+    <input type="button" value="这是子组件中的按钮，点击触发父组件传递过来的func" @click="comm1Click"/>
+  </div>
+</template>
+<script>
+  var com1 = {
+    template: '#templ',
+    data () {
+      return {
+        sonmsg: {
+          name: '呵呵',
+          age: 34
+        }
+      }
+    },
+    methods: {
+      comm1Click () {
+        console.log('点击子组件')
+        this.$emit('func', this.sonmsg)//触发方法调用
+      }
+    }
+  }
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      datamsgFromson: null
+    },
+    methods: {
+      show (data) {
+        console.log('调用父组件上的show方法===>' + data)
+        this.datamsgFromson=data;
+        console.log('datamsgFromson===>' + this.datamsgFromson)
+      }
+    },
+    props: [],
+    directives: {},
+    components: {
+      com1
+    },
+    filters: {}
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>品牌列表和自定义组件-01</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">添加品牌</h3>
+    </div>
+    <div class="panel-body form-inline">
+      <label>Id:
+        <input type="text" class="form-control" v-model="id">
+      </label>
+      <label>Name:
+        <input type="text" class="form-control" v-model="name" @keyup.enter="add" @keyup.f2="add">
+      </label>
+      <input type="button" value="添加" class="btn btn-primary" @click="add">
+      <hr>
+    </div>
+
+  </div>
+  <!-- 表格 -->
+  <table class="table table-bordered table-hover table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Ctime</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="item in list" :key="item.id">
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.ctime | dataFormat}}</td>
+      <td>
+        <a href="" @click.prevent="del(item.id)">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div id="app2">
+  <my-com1></my-com1>
+  <mycom2></mycom2>
+  <hr style="background-color: red;height: 2px">
+  <mycom3></mycom3>
+  <mycom3></mycom3>
+  <mycom3></mycom3>
+  <hr style="background-color: red;height: 2px">
+  <mycom4></mycom4>
+  <private-com></private-com>
+  <p style="color: blue ; font-size: 30px">好用，不错</p>
+</div>
+<template id="templ">
+  <div>
+    <h3>这是通过template元素，在外部创建的组件</h3>
+  </div>
+</template>
+<template id="templ2">
+  <div>
+    <input type="button" value="点我+1" style="font-size: 30px" @click="increment">
+    <h3>coun的值是:{{count}}</h3>
+  </div>
+</template>
+<script>
+  let com1 = Vue.extend({
+    // 通过temloate属性，指定了组件要展示的HTML结构
+    template: '<h3>这是用Vue.extend创建的组件</h3>'//内部必须只有一个根节点
+  })
+  // 1.2、使用Vue.component('组件的名称',创建出来的的组件模板对象)
+  // 定义的时候可以用驼峰法，但是调用时必须使用“-”
+  Vue.component('myCom1', com1)
+
+  Vue.component('mycom2', Vue.extend({
+    template: '<h3>这是用Vue.component两步合并创建的组件</h3>'
+  }))
+  Vue.component('mycom3', {
+    template: '#templ2',
+    data: function (el) {
+      return {
+        msg: '这是组件中定义的数据',
+        count: 0
+      }
+    }
+    , methods: {
+      increment () {
+        this.count++
+      }
+    }
+  })
+  Vue.component('mycom4', {
+    template: '#templ'
+  })
+  // 定义全局过滤器
+  // Vue.filter('过滤器名称',function(){})
+  Vue.filter('dataFormat', function (datastr, pattern = '') {
+    let data = new Date(datastr)
+    let year = data.getFullYear()
+    let month = data.getMonth() + 1
+    let day = data.getDate()
+    let hour = data.getHours()
+    let minute = data.getMinutes()
+    let second = data.getSeconds()
+    // return year + '-' + month + '-' + day
+    if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+      return `${year}-${month}-${day}`
+    } else {
+      return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+    }
+  })
+  const vm1 = new Vue({
+    el: '#app',
+    data: {
+      id: '',
+      name: '',
+      keywords: '',
+      list: [
+        {id: 1, name: '宝马1', ctime: new Date()},
+        {id: 2, name: '宝马2', ctime: new Date()},
+        {id: 3, name: '宝马3', ctime: new Date()}
+      ]
+    }, methods: {
+      add () { //添加方法
+        console.log('添加方法')
+        // 判断有没有输入
+        if (this.id === '' || this.name === '') {
+          alert('输入不完整')
+          return
+        }
+        // 添加到list
+        this.list.push({id: this.id, name: this.name, ctime: new Date()})
+        // 恢复初始值
+        this.id = ''
+        this.name = ''
+      },
+      del (id) {
+        console.log('删除方法')
+        let index = this.list.findIndex(item => {
+          if (item.id === id) {
+            return true
+          }
+        })
+        this.list.splice(index, 1)
+      }
+    }
+  })
+  var vm2 = new Vue({
+    el: '#app2',
+    data: {},
+    methods: {},
+    filters: {},
+    directives: {}, //指令
+    created: function (el) {
+      console.log('app2 created方法被调用')
+    },
+    components: {
+      privateCom: {
+        template: '#templ'
+      }
+    }
+  })
+</script>
+</body>
+</html>

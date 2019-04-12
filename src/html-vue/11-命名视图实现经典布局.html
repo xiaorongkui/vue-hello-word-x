@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>经典布局</title>
+  <!-- 引入vue.js -->
+  <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+  <!-- 引入路由模块 -->
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <style>
+    .header {
+      background-color: palegreen;
+      height: 50px;
+    }
+
+    .left {
+      flex: 2;
+      vertical-align: middle;
+      display: inline;
+      text-align: center;
+      background-color: green;
+    }
+
+    .main {
+      flex: 8;
+      vertical-align: center;
+      background-color: red;
+    }
+
+    .container {
+      height: 400px;
+      display: flex;
+    }
+
+    h1,h3 {
+      padding: 0;
+      margin: 0;
+      font-size: 16px;
+    }
+    html,body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <router-view></router-view>
+  <div class="container">
+    <router-view name="left"></router-view>
+    <router-view name="main"></router-view>
+  </div>
+
+</div>
+<script>
+  let headerCom = {
+    template: '<h1 class="header">header头部区域</h1>'
+  }
+  let leftCom = {
+    template: '<h3 class="left">left左侧区域</h3>'
+  }
+  let mainCom = {
+    template: '<h3 class="main">main主体区域</h3>'
+  }
+  var routeObj = new VueRouter({
+    routes: [
+      {
+        path: '/',
+        components: {
+          'default': headerCom,
+          'left': leftCom,
+          'main': mainCom,
+        }
+      },
+      // {path: '/leftcom', component: leftCom},
+      // {path: '/maincom', component: mainCom},
+    ]
+  })
+  var vm = new Vue({
+    el: '#app',
+    data: {},
+    methods: {},
+    router: routeObj
+  })
+</script>
+</body>
+</html>

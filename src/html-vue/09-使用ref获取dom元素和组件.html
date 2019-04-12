@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ref使用获取去dom</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <input type="button" value="获取元素" @click="getElement">
+  <h3 id="h3dom" ref="h3dom">几天天气不错，加油</h3>
+  <hr>
+  <login ref="mylogin" ></login>
+</div>
+<template id="templ">
+  <h3>登录组件</h3>
+</template>
+<script>
+  var login = {
+    template: '#templ',
+    data () {
+      return {
+        msg:"先核实笑死你"
+      }
+    },
+    methods: {
+      show () {
+        console.log('调用子组件的方法')
+      }
+    }
+  }
+  var vm = new Vue({
+    el: '#app',
+    data: {},
+    methods: {
+      getElement () {
+        console.log(document.getElementById('h3dom'))
+        console.log(document.getElementById('h3dom').innerText)
+        // reference
+        console.log('refs获取id', this.$refs.h3dom.innerText)
+        console.log(this.$refs.mylogin.msg)
+        console.log(this.$refs.mylogin.show)
+      }
+    },
+    components: {
+      login
+    }
+  })
+</script>
+</body>
+</html>

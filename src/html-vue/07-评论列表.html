@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>评论列表</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+
+  <comment-box v-on:func="loadCommonts"></comment-box>
+  <ul class="list-group">
+    <li class="list-group-item" v-for="item in list" :key="item.id">
+      <span class="badge">评论人:{{item.name}} </span>
+      {{item.content}}
+    </li>
+  </ul>
+</div>
+<template id="templ">
+  <div>
+    <div class="form-group">
+      <label>评论人:</label>
+      <input type="text" class="form-control" v-model="name"/>
+    </div>
+    <div class="form-group">
+      <label>评论内容:</label>
+      <textarea class="form-control" v-model="content"></textarea>
+    </div>
+    <div class="form-group">
+      <input type="button" value="发表评论" class="btn btn-primary" @click="submitCommont"/>
+    </div>
+  </div>
+</template>
+<script>
+  var commentBox = {
+    template: '#templ',
+    methods: {
+      submitCommont () {
+        if (this.name === '' || this.content === '') {
+          return
+        }
+        var common = {id: Date.now(), name: this.name, content: this.content}
+        var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+        list.unshift(common)
+        localStorage.setItem('cmts', JSON.stringify(list))
+        this.name = this.content = ''
+        this.$emit('func')
+      }
+    },
+    data () {
+      return {
+        name: '',
+        content: ''
+      }
+    }
+  }
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      list: [
+        {id: Date.now(), name: '李白', content: '独剩你我'},
+        {id: Date.now() + 2, name: '杜甫', content: '茅屋为秋风所破歌'},
+        {id: Date.now() + 3, name: '苏轼', content: '黄鹤楼'},
+        {id: Date.now() + 4, name: '欧阳修', content: '泪眼问花花不语，乱红飞过秋千去'}
+      ]
+    },
+    created(){
+      this.loadCommonts()
+    },
+    methods: {
+      loadCommonts () {
+        var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+        this.list = list
+      }
+    },
+    components: {
+      commentBox
+    }
+  })
+</script>
+</body>
+</html>
