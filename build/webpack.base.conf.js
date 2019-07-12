@@ -79,7 +79,7 @@ module.exports = {
       // // {test: /\.css$/, use: ['css-loader', 'style-loader']},//用来处理css的第三代模块,处理顺序，从后向前
       // {test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader']},//用来处理less文件的第三方模块
       // {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']},
-      {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},//配置babel来转化高级的ES语法
+      // {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},//配置babel来转化高级的ES语法
     ]
   },
   node: {

@@ -14,7 +14,7 @@ export default new Router({
     {path: '/home', component: HomeContainer},
     {path: '/member', component: MemberContainer},
     {path: '/shopcar', component: ShopcarContainer},
-    {path: '/serach', component: SearchContainer}
+    {path: '/search', component: SearchContainer}
   ],
   linkActiveClass: 'mui-active' // router-link-active
 })

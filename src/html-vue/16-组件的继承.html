@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>组件的继承</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    .label {
+      background-color: #2ac845;
+    }
+  </style>
+</head>
+<body>
+<div id="app" style="font-size: 48px;">
+  <base-input
+    v-model="username"
+    v-bind:class="label"
+    v-bind:style="{fontSize:40+'px'}"
+    v-bind:a='a'
+    add="ssss"
+    placeholder="Enter you"
+  ></base-input>
+</div>
+<template id="templ">
+  <div>
+    <label>
+      akjdakdassssssssssssssss
+      <p v-bind="$attrs"> {{ label }}</p>
+      <input v-bind="$attrs" v-bind:value="value"
+             v-on:input="$emit('input', $event.target.value)">
+    </label>
+  </div>
+</template>
+<script>
+var vm = new Vue({
+  el: '#app',
+  data: {
+    fontSize: 43,
+    username: '',
+    a: 'aadd',
+    value: '33',
+    label: 'sadsa',
+  },
+  components: {
+    baseInput: {
+      template: '#templ',
+      inheritAttrs: false,
+      data () {
+        return {
+          value: '',
+          label: ''
+        }
+      }
+    }
+  }
+})
+</script>
+</body>
+
+</html>

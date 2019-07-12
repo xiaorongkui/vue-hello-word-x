@@ -7,22 +7,49 @@
 </head>
 <body>
 <div id="app">
-  <com1 v-bind:parentmsg="msg"></com1>
+  <button @click="toSon">点击向子组件传值</button>
+  <com1 v-bind:parentmsg1="msg"></com1>
+  <com2 ref="parentmsg2"></com2>
 </div>
+
+<template id="templ">
+  <div>
+    <h3>这是通过template元素，在外部创建的组件</h3>
+  </div>
+</template>
+
 <script>
-  var vm = new Vue({
-    el: '#app',
-    data: {
-      msg: '父组件中的数据'
-    },
-    methods: {},
-    components: {
-      com1: {
-        template: '<h1>这是子组件 ====父组件值 {{parentmsg}}</h1>',
-        props: ['parentmsg'],
-      }
+Vue.component('com2', {
+  template: '#templ',
+  data: function (el) {
+    return {
+      msgSon: '这是组件中定义的数据',
+      count: 0
     }
-  })
+  }, methods: {
+    show () {
+      alert('值传过来了')
+    }
+  }
+})
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    msg: '父组件中的数据'
+  },
+  methods: {
+    toSon () {
+      this.$refs.parentmsg2.show()
+    }
+  },
+  components: {
+    com1: {
+      template: '<h1>这是子组件 ====父组件值 {{parentmsg1}}</h1>',
+      props: ['parentmsg1'],
+    }
+  }
+})
 </script>
 </body>
 </html>
